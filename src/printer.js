@@ -468,11 +468,13 @@ function renderWatermark(page, pdfKitDoc) {
 	var angle = Math.atan2(pdfKitDoc.page.height, pdfKitDoc.page.width) * -180 / Math.PI;
 	pdfKitDoc.rotate(angle, {origin: [pdfKitDoc.page.width / 2, pdfKitDoc.page.height / 2]});
 
+	pdfKitDoc._font = watermark.font;
+	pdfKitDoc.fontSize(watermark.size.fontSize);
+
 	var x = pdfKitDoc.page.width / 2 - watermark.size.size.width / 2;
 	var y = pdfKitDoc.page.height / 2 - watermark.size.size.height / 4;
 
-	pdfKitDoc._font = watermark.font;
-	pdfKitDoc.fontSize(watermark.size.fontSize);
+
 	pdfKitDoc.text(watermark.text, x, y, {lineBreak: false});
 
 	pdfKitDoc.restore();

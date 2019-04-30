@@ -256,6 +256,8 @@ LayoutBuilder.prototype.addWatermark = function (watermark, fontProvider, defaul
 	watermark.opacity = watermark.opacity || 0.6;
 	watermark.bold = watermark.bold || false;
 	watermark.italics = watermark.italics || false;
+	watermark.excludePages = watermark.excludePages || [];
+
 
 	var watermarkObject = {
 		text: watermark.text,
@@ -266,8 +268,25 @@ LayoutBuilder.prototype.addWatermark = function (watermark, fontProvider, defaul
 	};
 
 	var pages = this.writer.context().pages;
-	for (var i = 0, l = pages.length; i < l; i++) {
-		pages[i].watermark = watermarkObject;
+	if (!!watermark.excludePages && watermark.excludePages.length > 0) {
+		var isExclude;
+		for (var i = 0, l = pages.length; i < l; i++) {
+			isExclude = false;
+			for (var j = 0; j < watermark.excludePages.length; j++) {
+				if (watermark.excludePages[j] == i + 1) {
+					isExclude = true;
+				}
+			}
+			if (isExclude) {
+				continue;
+			}
+			pages[i].watermark = watermarkObject;
+
+		}
+	} else {
+		for (var i = 0, l = pages.length; i < l; i++) {
+			pages[i].watermark = watermarkObject;
+		}
 	}
 
 	function getSize(pageSize, watermark, fontProvider) {
