@@ -264,7 +264,9 @@ LayoutBuilder.prototype.addWatermark = function (watermark, fontProvider, defaul
 		font: fontProvider.provideFont(watermark.font, watermark.bold, watermark.italics),
 		size: getSize(this.pageSize, watermark, fontProvider),
 		color: watermark.color,
-		opacity: watermark.opacity
+		opacity: watermark.opacity,
+		rotate: watermark.rotate,
+		textLayout: watermark.textLayout
 	};
 
 	var pages = this.writer.context().pages;
@@ -322,7 +324,7 @@ LayoutBuilder.prototype.addWatermark = function (watermark, fontProvider, defaul
 		/*
 		 End binary search
 		 */
-		return {size: size, fontSize: c};
+		return {size: size, fontSize: watermark.fontSize || c};
 	}
 };
 
