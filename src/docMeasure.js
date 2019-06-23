@@ -229,9 +229,12 @@ DocMeasure.prototype.measureToc = function (node) {
 		var lineStyle = item._textNodeRef.tocStyle || textStyle;
 		var lineMargin = item._textNodeRef.tocMargin || textMargin;
 		var lineNumberStyle = item._textNodeRef.tocNumberStyle || numberStyle;
+		var textLength = item._textNodeRef.text.split('.').length;
+		var lineMarginNew = textLength === 2 ? 20 : textLength === 3 ? 40 : textLength === 4 ? 60 : textLength === 5 ? 80 : 0;
+
 		body.push([
-			{text: item._textNodeRef.text, alignment: 'left', style: lineStyle, margin: lineMargin},
-			{text: '00000', alignment: 'right', _tocItemRef: item._nodeRef, style: lineNumberStyle, margin: [0, lineMargin[1], 0, lineMargin[3]]}
+			{text: item._textNodeRef.text, style: 'dashed', margin: [lineMarginNew, 5, 0, 0]},
+			{text: '00000', alignment: 'right', _tocItemRef: item._nodeRef, style: lineNumberStyle, margin: [0, 0, 0, 0]}
 		]);
 	}
 
