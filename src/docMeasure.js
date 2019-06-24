@@ -229,12 +229,22 @@ DocMeasure.prototype.measureToc = function (node) {
 		var lineStyle = item._textNodeRef.tocStyle || textStyle;
 		var lineMargin = item._textNodeRef.tocMargin || textMargin;
 		var lineNumberStyle = item._textNodeRef.tocNumberStyle || numberStyle;
-		var textLength = item._textNodeRef.text.split('.').length;
+		var refText = item._textNodeRef.text.replace('\n', '');
+
+		var textLength = refText.split('.').length;
 		var lineMarginNew = textLength === 2 ? 20 : textLength === 3 ? 40 : textLength === 4 ? 60 : textLength === 5 ? 80 : 0;
+		var dashedLength = 40 - refText.length;
+
+		dashedLength = textLength === 2 ? dashedLength - 1 : textLength === 3 ? dashedLength - 2 :
+			textLength === 4 ? dashedLength - 3 : textLength === 5 ? dashedLength - 4 : dashedLength
+
+		var deshedText = DocMeasure.prototype.getTocDeshed(dashedLength);
+
+		var titleText = refText + deshedText;
 
 		body.push([
-			{text: item._textNodeRef.text, style: 'dashed', margin: [lineMarginNew, 5, 0, 0]},
-			{text: '00000', alignment: 'right', _tocItemRef: item._nodeRef, style: lineNumberStyle, margin: [0, 0, 0, 0]}
+			{text: titleText, style: 'dashed', margin: [lineMarginNew, 5, 0, 0]},
+			{text: '00000', alignment: 'right', _tocItemRef: item._nodeRef, style: lineNumberStyle, margin: [0, 5, 0, 0]}
 		]);
 	}
 
@@ -251,6 +261,44 @@ DocMeasure.prototype.measureToc = function (node) {
 	node.toc._table = this.measureNode(node.toc._table);
 
 	return node;
+};
+
+DocMeasure.prototype.getTocDeshed = function (length) {
+	switch (length) {
+		case 33: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 32: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 31: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 30: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 29: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 28: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 27: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 26: return '        - - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 25: return '        - - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 24: return '        - - - - - - - - - - - - - - - - - - - - - - - -';
+		case 23: return '        - - - - - - - - - - - - - - - - - - - - - - -';
+		case 22: return '        - - - - - - - - - - - - - - - - - - - - - -';
+		case 21: return '        - - - - - - - - - - - - - - - - - - - - -';
+		case 20: return '        - - - - - - - - - - - - - - - - - - - -';
+		case 19: return '        - - - - - - - - - - - - - - - - - - -';
+		case 18: return '        - - - - - - - - - - - - - - - - - -';
+		case 17: return '        - - - - - - - - - - - - - - - - -';
+		case 16: return '        - - - - - - - - - - - - - - - -';
+		case 15: return '        - - - - - - - - - - - - - - -';
+		case 14: return '        - - - - - - - - - - - - - -';
+		case 13: return '        - - - - - - - - - - - - -';
+		case 12: return '        - - - - - - - - - - - -';
+		case 11: return '        - - - - - - - - - - -';
+		case 10: return '        - - - - - - - - - -';
+		case 9: return '        - - - - - - - - -';
+		case 8: return '        - - - - - - - -';
+		case 7: return '        - - - - - - -';
+		case 6: return '        - - - - - -';
+		case 5: return '        - - - - -';
+		case 4: return '        - - - -';
+		case 3: return '        - - -';
+		case 2: return '        - -';
+		case 1: return '        -';
+	}
 };
 
 DocMeasure.prototype.measureVerticalContainer = function (node) {
