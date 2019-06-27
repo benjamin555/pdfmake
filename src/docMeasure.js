@@ -247,7 +247,7 @@ DocMeasure.prototype.measureToc = function (node) {
 		var titleText = refText + deshedText;
 
 		body.push([
-			{text: titleText, style: 'dashed', margin: [lineMarginNew, 5, 0, 0]},
+			{text: titleText, style: {overflow: 'hidden', whitespace: 'noWrap', textOverflow: 'ellipsis'}, margin: [lineMarginNew, 5, 0, 0]},
 			{text: '00000', alignment: 'right', _tocItemRef: item._nodeRef, style: lineNumberStyle, margin: [0, 5, 0, 0]}
 		]);
 	}
