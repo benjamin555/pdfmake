@@ -231,13 +231,14 @@ DocMeasure.prototype.measureToc = function (node) {
 		var lineNumberStyle = item._textNodeRef.tocNumberStyle || numberStyle;
 		var refText = item._textNodeRef.text.replace('\n', '');
 
+		//标题层级
 		var textLength = refText.split('.').length;
+
 		var lineMarginNew = textLength === 2 ? 20 : textLength === 3 ? 40 : textLength === 4 ? 60 : textLength === 5 ? 80 : 0;
 		var dashedLength = 40 - refText.length;
 
-		dashedLength = textLength === 2 ? dashedLength - 1 : textLength === 3 ? dashedLength - 2 :
+		dashedLength = textLength === 1 ?dashedLength:textLength === 2 ? dashedLength - 1 : textLength === 3 ? dashedLength - 2 :
 			textLength === 4 ? dashedLength - 3 : textLength === 5 ? dashedLength - 4 : dashedLength
-
 		if (refText.indexOf('TOP10') != -1) {
 			dashedLength = 1;
 		}
@@ -245,7 +246,6 @@ DocMeasure.prototype.measureToc = function (node) {
 		var deshedText = DocMeasure.prototype.getTocDeshed(dashedLength);
 
 		var titleText = refText + deshedText;
-
 		body.push([
 			{text: titleText, style: {overflow: 'hidden', whitespace: 'noWrap', textOverflow: 'ellipsis'}, margin: [lineMarginNew, 5, 0, 0]},
 			{text: '00000', alignment: 'right', _tocItemRef: item._nodeRef, style: lineNumberStyle, margin: [0, 5, 0, 0]}
@@ -302,42 +302,8 @@ DocMeasure.prototype.getTocDeshed = function (length) {
 		case 3: return '        ......';
 		case 2: return '        ...';
 		case 1: return '        ..........................................................................';
+		default: return '        ......................................................................................................';
 	}
-	/*switch (length) {
-		case 33: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 32: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 31: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 30: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 29: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 28: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 27: return '        - - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 26: return '        - - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 25: return '        - - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 24: return '        - - - - - - - - - - - - - - - - - - - - - - - -';
-		case 23: return '        - - - - - - - - - - - - - - - - - - - - - - -';
-		case 22: return '        - - - - - - - - - - - - - - - - - - - - - -';
-		case 21: return '        - - - - - - - - - - - - - - - - - - - - -';
-		case 20: return '        - - - - - - - - - - - - - - - - - - - -';
-		case 19: return '        - - - - - - - - - - - - - - - - - - -';
-		case 18: return '        - - - - - - - - - - - - - - - - - -';
-		case 17: return '        - - - - - - - - - - - - - - - - -';
-		case 16: return '        - - - - - - - - - - - - - - - -';
-		case 15: return '        - - - - - - - - - - - - - - -';
-		case 14: return '        - - - - - - - - - - - - - -';
-		case 13: return '        - - - - - - - - - - - - -';
-		case 12: return '        - - - - - - - - - - - -';
-		case 11: return '        - - - - - - - - - - -';
-		case 10: return '        - - - - - - - - - -';
-		case 9: return '        - - - - - - - - -';
-		case 8: return '        - - - - - - - -';
-		case 7: return '        - - - - - - -';
-		case 6: return '        - - - - - -';
-		case 5: return '        - - - - -';
-		case 4: return '        - - - -';
-		case 3: return '        - - -';
-		case 2: return '        - -';
-		case 1: return '        -';
-	}*/
 };
 
 DocMeasure.prototype.measureVerticalContainer = function (node) {
@@ -366,13 +332,13 @@ DocMeasure.prototype.buildUnorderedMarker = function (styleStack, gapSize, type)
 		var radius = gapSize.fontSize / 6;
 		return {
 			canvas: [{
-					x: radius,
-					y: (gapSize.height / gapSize.lineHeight) + gapSize.descender - gapSize.fontSize / 3,
-					r1: radius,
-					r2: radius,
-					type: 'ellipse',
-					color: color
-				}]
+				x: radius,
+				y: (gapSize.height / gapSize.lineHeight) + gapSize.descender - gapSize.fontSize / 3,
+				r1: radius,
+				r2: radius,
+				type: 'ellipse',
+				color: color
+			}]
 		};
 	}
 
@@ -381,13 +347,13 @@ DocMeasure.prototype.buildUnorderedMarker = function (styleStack, gapSize, type)
 		var size = gapSize.fontSize / 3;
 		return {
 			canvas: [{
-					x: 0,
-					y: (gapSize.height / gapSize.lineHeight) + gapSize.descender - (gapSize.fontSize / 3) - (size / 2),
-					h: size,
-					w: size,
-					type: 'rect',
-					color: color
-				}]
+				x: 0,
+				y: (gapSize.height / gapSize.lineHeight) + gapSize.descender - (gapSize.fontSize / 3) - (size / 2),
+				h: size,
+				w: size,
+				type: 'rect',
+				color: color
+			}]
 		};
 	}
 
@@ -396,13 +362,13 @@ DocMeasure.prototype.buildUnorderedMarker = function (styleStack, gapSize, type)
 		var radius = gapSize.fontSize / 6;
 		return {
 			canvas: [{
-					x: radius,
-					y: (gapSize.height / gapSize.lineHeight) + gapSize.descender - gapSize.fontSize / 3,
-					r1: radius,
-					r2: radius,
-					type: 'ellipse',
-					lineColor: color
-				}]
+				x: radius,
+				y: (gapSize.height / gapSize.lineHeight) + gapSize.descender - gapSize.fontSize / 3,
+				r1: radius,
+				r2: radius,
+				type: 'ellipse',
+				lineColor: color
+			}]
 		};
 	}
 
